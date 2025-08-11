@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EYOARC - Ultimate PC Gaming Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0cf;
+            --secondary: #90f;
+            --accent: #f06;
+            --dark: #0a0a14;
+            --darker: #05050a;
+            --light: #f0f0f0;
+            --glass: rgba(20, 20, 40, 0.6);
+            --glass-border: rgba(100, 100, 200, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            padding: 5px 10px;
+            width: 200px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+            background: linear-gradient(rgba(10, 10, 20, 0.8), rgba(5, 5, 10, 0.9)), url('https://imgs.search.brave.com/ewbDdH3ahHedVn-4k_b02hK-B_MorXj-JSYQQGn4zjE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDk3MTQy/MTUuanBn') no-repeat center center/cover;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 700px;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-search {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .hero-search input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            color: var(--light);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .hero-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+        }
+
+        .hero-search button {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 50px;
+            padding: 10px 25px;
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero-search button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.5);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        /* Game Cards */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .game-card-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .game-card:hover .game-card-img {
+            transform: scale(1.05);
+        }
+
+        .game-card-content {
+            padding: 20px;
+        }
+
+        .game-card-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .game-card-info {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .game-card-genre {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .game-card-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+
+        .game-card-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        /* Featured Section */
+        .featured-games {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-slider {
+            display: flex;
+            gap: 30px;
+            padding: 20px 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .featured-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .featured-card {
+            scroll-snap-align: start;
+            min-width: 300px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .featured-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--primary);
+        }
+
+        .featured-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .featured-content {
+            padding: 20px;
+        }
+
+        .featured-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .featured-desc {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+        }
+
+        .featured-btn {
+            display: inline-block;
+            padding: 8px 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .featured-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        /* Upcoming Games */
+        .countdown-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .countdown-box {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .countdown-box:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 204, 255, 0.2);
+        }
+
+        .countdown-value {
+            font-size: 2.5rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .countdown-label {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Forum Preview */
+        .forum-preview {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 30px;
+        }
+
+        .forum-post {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .forum-post:last-child {
+            border-bottom: none;
+        }
+
+        .forum-post-title {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .forum-post-meta {
+            display: flex;
+            gap: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Merchandise */
+        .merch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 15px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .product-price {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker);
+            padding: 60px 0 20px;
+            border-top: 1px solid rgba(100, 100, 200, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-search input {
+                padding: 12px 20px;
+            }
+            
+            .hero-search button {
+                padding: 8px 15px;
+            }
+            
+            .section {
+                padding: 50px 0;
+            }
+            
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="logo">
+                <span>EYOARC</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="games.html">Games</a>
+                <a href="forum.html">Forum</a>
+                <a href="store.html">Store</a>
+                <a href="login.html">Account</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="navbarSearchInput" placeholder="Search games...">
+                <button id="navbarSearchButton"><i class="fas fa-search"></i></button>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>EYOARC</h1>
+            <p></p>
+            <div class="hero-search">
+                <input type="text" id="heroSearchInput" placeholder="Search for games, news, and more...">
+                <button id="heroSearchButton">Search</button>
+            </div>
+        </div>
+    </section>
+<!-- Trending Games -->
+    <section class="section">
+        <div class="container">
+            <h2>Find games</h2>
+            <div class="section-title">
+            </div>
+            <div class="games-grid" id="trendingGamesGrid">
+                <div class="game-card">
+                    <img src="https://imgs.search.brave.com/mp3Ih3Ktt1w9pE2hlUutUZ7HI45IrIquntu14WwBR2Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXQuY29t/L3cvZnVsbC80LzYv/NS8yNDkyLTI4ODB4/MTgwMC1kZXNrdG9w/LWhkLWdyYW5kLXRo/ZWZ0LWF1dG8tNS1i/YWNrZ3JvdW5kLXBo/b3RvLmpwZw" alt="Game" class="game-card-img">
+                    <div class="game-card-content">
+                        <h3 class="game-card-title">Grand Theft Auto:V</h3>
+                        <div class="game-card-info">
+                            <span class="game-card-genre">Action,Adventure,3D,Open World</span>
+                            <span>2013</span>
+                        <a href="./Games/Grand Theft Auto 5.html class="game-card-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://imgs.search.brave.com/V9ZHBRRLYSoXfUOxGlB0XYrhkP3LdJUGOAs6_DAxsq0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbTEu/YW1pbm9hcHBzLmNv/bS83NjA3L2ZjYTdk/YzVjNDY2YjE1Y2Y3/NmVlZmViOWQ3NjUw/NDEzZjA0Y2JhN2Fy/MS0yODQtMzUwdjJf/aHEuanBn" alt="Game" class="game-card-img">
+                    <div class="game-card-content">
+                        <h3 class="game-card-title">Red Dead Redemption 2 </h3>
+                        <div class="game-card-info">
+                            <span class="game-card-genre">Wild West, Action, Adventure,3D, Open World</span>
+                            <span>2018</span>
+                        <a href="./Games/Red Dead Redemption 2.html" class="game-card-btn">View Details</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://imgs.search.brave.com/l_WqGwHDeuB3qq07Go25PIph_evWtomt4b9s9H7AlIg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC9XYmV5cDRM/LmpwZw" alt="Game" class="game-card-img">
+                    <div class="game-card-content">
+                        <h3 class="game-card-title">Grand Theft Auto: IV</h3>
+                        <div class="game-card-info">
+                            <span class="game-card-genre">Action, Adventure,3D, Open World</span>
+                            <span>2008</span>
+                        </div>
+                        <a href="./Games/Grand Theft Auto IV.html" class="game-card-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="game-card">
+                    <img src="https://imgs.search.brave.com/z6sYwPw45LwuR0crYPzytfvGEe15KtQfU0tzkjGhGxU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L2Nh/bGxvZmR1dHkvaW1h/Z2VzLzYvNmMvQ09E/X1dXSUlfY292ZXIu/SlBHL3JldmlzaW9u/L2xhdGVzdC9zY2Fs/ZS10by13aWR0aC1k/b3duLzI2Nz9jYj0y/MDE3MDQyNzIyMDY1/MA" alt="Game" class="game-card-img">
+                    <div class="game-card-content">
+                        <h3 class="game-card-title">Call of Duty: World War 2 (WW2)</h3>
+                        <div class="game-card-info">
+                            <span class="game-card-genre">Action,First-person shooter,War,Shooter</span>
+                            <span>2017</span>
+                        </div>
+                        <a href="./Games/Call of Duty WW2.html" class="game-card-btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Featured Games -->
+    <section class="section featured-games">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Games</h2>
+            </div>
+            <div class="featured-slider">
+                <div class="featured-card">
+                    <img src="https://imgs.search.brave.com/z6sYwPw45LwuR0crYPzytfvGEe15KtQfU0tzkjGhGxU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L2Nh/bGxvZmR1dHkvaW1h/Z2VzLzYvNmMvQ09E/X1dXSUlfY292ZXIu/SlBHL3JldmlzaW9u/L2xhdGVzdC9zY2Fs/ZS10by13aWR0aC1k/b3duLzI2Nz9jYj0y/MDE3MDQyNzIyMDY1/MA" alt="Featured Game" class="featured-img">
+                    <div class="featured-content">
+                        <h3 class="featured-title">Call of Duty: World War 2 (WW2)</h3>
+                        <p class="featured-desc">Call of Duty: WWII is an intense, cinematic first-person shooter that immerses players in the gritty, emotional battles of World War II, from D-Day to the fall of Nazi Germany.</p>
+                        <a href="./Games/Call of Duty WW2.html" class="featured-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="featured-card">
+                    <img src="https://imgs.search.brave.com/V9ZHBRRLYSoXfUOxGlB0XYrhkP3LdJUGOAs6_DAxsq0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbTEu/YW1pbm9hcHBzLmNv/bS83NjA3L2ZjYTdk/YzVjNDY2YjE1Y2Y3/NmVlZmViOWQ3NjUw/NDEzZjA0Y2JhN2Fy/MS0yODQtMzUwdjJf/aHEuanBn" alt="Featured Game" class="featured-img">
+                    <div class="featured-content">
+                        <h3 class="featured-title">Red Dead Redemption 2</h3>
+                        <p class="featured-desc">Red Dead Redemption 2 is an emotional journey through the dying days of the Wild West, where every choice leaves a mark on your soul.</p>
+                        <a href="./Games/Red Dead Redemption 2.html" class="featured-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="featured-card">
+                    <img src="https://imgs.search.brave.com/mp3Ih3Ktt1w9pE2hlUutUZ7HI45IrIquntu14WwBR2Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXQuY29t/L3cvZnVsbC80LzYv/NS8yNDkyLTI4ODB4/MTgwMC1kZXNrdG9w/LWhkLWdyYW5kLXRo/ZWZ0LWF1dG8tNS1i/YWNrZ3JvdW5kLXBo/b3RvLmpwZw" alt="Featured Game" class="featured-img">
+                    <div class="featured-content">
+                        <h3 class="featured-title">Grand Theft Auto:V</h3>
+                        <p class="featured-desc">Heists, mayhem, and the American dream gone wrong.</p>
+                        <a href="./Games/Grand Theft Auto 5.html" class="featured-btn">View Details</a>
+                    </div>
+                </div>
+                <div class="featured-card">
+                    <img src="https://imgs.search.brave.com/l_WqGwHDeuB3qq07Go25PIph_evWtomt4b9s9H7AlIg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC9XYmV5cDRM/LmpwZw" alt="Featured Game" class="featured-img">
+                    <div class="featured-content">
+                        <h3 class="featured-title">Grand Theft Auto: IV</h3>
+                        <p class="featured-desc">GTA 4 is Niko Bellic's fight to escape his past, only to find that in Liberty City, no one truly leaves it behind.</p>
+                        <a href="./Games/Grand Theft Auto 4.html" class="featured-btn">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Upcoming Games -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Coming Soon</h2>
+            </div>
+            <div class="countdown-container">
+                <div class="countdown-box">
+                    <div class="countdown-value">12</div>
+                    <div class="countdown-label">Days</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value">08</div>
+                    <div class="countdown-label">Hours</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value">45</div>
+                    <div class="countdown-label">Minutes</div>
+                </div>
+                <div class="countdown-box">
+                    <div class="countdown-value">30</div>
+                    <div class="countdown-label">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Forum Preview -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Latest Forum Posts</h2>
+            </div>
+            <div class="forum-preview">
+                <div class="forum-post">
+                    <h4 class="forum-post-title">Looking for teammates for ranked play</h4>
+                    <div class="forum-post-meta">
+                        <span>Posted by: GameMaster</span>
+                        <span>5 replies</span>
+                        <span>2 hours ago</span>
+                    </div>
+                </div>
+                <div class="forum-post">
+                    <h4 class="forum-post-title">Patch 1.5.3 release notes</h4>
+                    <div class="forum-post-meta">
+                        <span>Posted by: DevTeam</span>
+                        <span>24 replies</span>
+                        <span>1 day ago</span>
+                    </div>
+                </div>
+                <div class="forum-post">
+                    <h4 class="forum-post-title">Best gaming mouse for FPS?</h4>
+                    <div class="forum-post-meta">
+                        <span>Posted by: FragKing</span>
+                        <span>15 replies</span>
+                        <span>3 days ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Merchandise -->
+    <section class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Merchandise</h2>
+            </div>
+            <div class="merch-grid">
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Product" class="product-img">
+                    <div class="product-content">
+                        <h3 class="product-title">Gaming T-Shirt</h3>
+                        <div class="product-price">$24.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Product" class="product-img">
+                    <div class="product-content">
+                        <h3 class="product-title">Wireless Headset</h3>
+                        <div class="product-price">$129.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Product" class="product-img">
+                    <div class="product-content">
+                        <h3 class="product-title">Collector's Edition</h3>
+                        <div class="product-price">$79.99</div>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://images.unsplash.com/photo-1592155931584-901ac15763e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Product" class="product-img">
+                    <div class="product-content">
+                        <h3 class="product-title">Gaming Mouse</h3>
+                        <div class="product-price">$59.99</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>EYOARC</h3>
+                    <p>Your ultimate PC gaming hub for news, reviews, forums, and merchandise.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="games.html">Games</a></li>
+                        <li><a href="forum.html">Forum</a></li>
+                        <li><a href="store.html">Store</a></li>
+                        <li><a href="#">Account</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get the latest gaming news and offers.</p>
+                    <div class="search-bar" style="margin-top: 15px;">
+                        <input type="text" id="newsletterInput" placeholder="Your email">
+                        <button id="newsletterButton"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EYOARC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Search Functionality -->
+    <script>
+        // Game data
+        const games = [
+            {
+                id: 1,
+                title: "Grand Theft Auto: V",
+                genre: "Action Adventure, 3D, Open world",
+                year: "2013",
+                image: "https://imgs.search.brave.com/mp3Ih3Ktt1w9pE2hlUutUZ7HI45IrIquntu14WwBR2Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXQuY29t/L3cvZnVsbC80LzYv/NS8yNDkyLTI4ODB4/MTgwMC1kZXNrdG9w/LWhkLWdyYW5kLXRo/ZWZ0LWF1dG8tNS1i/YWNrZ3JvdW5kLXBo/b3RvLmpwZw",
+                description: "Heists, mayhem, and the American dream gone wrong."
+            },
+            {
+                id: 2,
+                title: "Red Dead Redemption 2",
+                genre: "Action Adventure, Wild west, Shooter, Hunting, 3D, Open World, Realistic",
+                year: "2018",
+                image: "https://imgs.search.brave.com/V9ZHBRRLYSoXfUOxGlB0XYrhkP3LdJUGOAs6_DAxsq0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wbTEu/YW1pbm9hcHBzLmNv/bS83NjA3L2ZjYTdk/YzVjNDY2YjE1Y2Y3/NmVlZmViOWQ3NjUw/NDEzZjA0Y2JhN2Fy/MS0yODQtMzUwdjJf/aHEuanBn",
+                description: "Red Dead Redemption 2 is an emotional journey through the dying days of the Wild West, where every choice leaves a mark on your soul."
+            },
+            {
+                id: 3,
+                title: "Grand Theft Auto: IV",
+                genre: "Action Adventure, 3D, Open world",
+                year: "2008",
+                image: "https://imgs.search.brave.com/xVQj16_JKJ1DCzKEsnV6QzJ1iNstlIAC3nB0xGZePUQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aWdyYW5kdGhlZnRh/dXRvLmNvbS9jb250/ZW50L2ltYWdlcy9n/YWxsZXJ5LzM2MTgt/Z3RhaXYtZ3RhLWl2/LWNvdmVyLWFydC5q/cGc_ZXRhZz01MTVi/MDAwYg",
+                description: "GTA 4 is Niko Bellic's fight to escape his past, only to find that in Liberty City, no one truly leaves it behind."
+            },
+            {
+                id: 4,
+                title: "Call of Duty: World War 2 (WW2)",
+                genre: "Action,First-person shooter,War,Shooter",
+                year: "2017",
+                image: "https://imgs.search.brave.com/z6sYwPw45LwuR0crYPzytfvGEe15KtQfU0tzkjGhGxU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMud2lraWEubm9j/b29raWUubmV0L2Nh/bGxvZmR1dHkvaW1h/Z2VzLzYvNmMvQ09E/X1dXSUlfY292ZXIu/SlBHL3JldmlzaW9u/L2xhdGVzdC9zY2Fs/ZS10by13aWR0aC1k/b3duLzI2Nz9jYj0y/MDE3MDQyNzIyMDY1/MA",
+                description: "Call of Duty: WWII is an intense, cinematic first-person shooter that immerses players in the gritty, emotional battles of World War II, from D-Day to the fall of Nazi Germany."
+            }
+        ];
+
+        // DOM Elements
+        const trendingGamesGrid = document.getElementById('trendingGamesGrid');
+        const navbarSearchInput = document.getElementById('navbarSearchInput');
+        const navbarSearchButton = document.getElementById('navbarSearchButton');
+        const heroSearchInput = document.getElementById('heroSearchInput');
+        const heroSearchButton = document.getElementById('heroSearchButton');
+        const newsletterInput = document.getElementById('newsletterInput');
+        const newsletterButton = document.getElementById('newsletterButton');
+
+        // Initialize the page
+        function init() {
+            renderGames();
+            setupEventListeners();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navbar search
+            navbarSearchInput.addEventListener('input', filterGames);
+            navbarSearchButton.addEventListener('click', filterGames);
+            
+            // Hero search
+            heroSearchInput.addEventListener('input', filterGames);
+            heroSearchButton.addEventListener('click', filterGames);
+            
+            // Newsletter subscription
+            newsletterButton.addEventListener('click', subscribeToNewsletter);
+        }
+
+        // Filter games based on search term
+        function filterGames() {
+            let searchTerm = '';
+            
+            // Determine which search input is being used
+            if (this === navbarSearchInput || this === navbarSearchButton) {
+                searchTerm = navbarSearchInput.value.toLowerCase();
+            } else if (this === heroSearchInput || this === heroSearchButton) {
+                searchTerm = heroSearchInput.value.toLowerCase();
+            }
+            
+            // Filter games
+            const filteredGames = games.filter(game => {
+                return game.title.toLowerCase().includes(searchTerm) || 
+                       game.genre.toLowerCase().includes(searchTerm) ||
+                       game.description.toLowerCase().includes(searchTerm);
+            });
+
+            renderGames(filteredGames);
+        }
+
+        // Render games to the grid
+        function renderGames(gamesToRender = games) {
+            trendingGamesGrid.innerHTML = '';
+            
+            if (gamesToRender.length === 0) {
+                trendingGamesGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 20px; color: var(--light);">No games found matching your search.</p>';
+                return;
+            }
+
+            gamesToRender.forEach((game, index) => {
+                const gameCard = createGameCard(game, index);
+                trendingGamesGrid.appendChild(gameCard);
+            });
+        }
+
+        // Create game card HTML
+        function createGameCard(game, index) {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.style.animationDelay = `${(index % 4) * 0.1}s`;
+            card.innerHTML = `
+                <img src="${game.image}" alt="${game.title}" class="game-card-img">
+                <div class="game-card-content">
+                    <h3 class="game-card-title">${game.title}</h3>
+                    <div class="game-card-info">
+                        <span class="game-card-genre">${game.genre}</span>
+                        <span>${game.year}</span>
+                    </div>
+                    <a href="./Games/${game.title.replace(/:/g, '')}.html" class="game-card-btn">View Details</a>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Newsletter subscription function
+        function subscribeToNewsletter() {
+            const email = newsletterInput.value.trim();
+            
+            if (email && validateEmail(email)) {
+                alert(`Thank you for subscribing to our newsletter with ${email}!`);
+                newsletterInput.value = '';
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+
+        // Simple email validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Initialize the page
+        init();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'mobile-menu';
+        mobileMenu.innerHTML = `
+            <div class="mobile-menu-header">
+                <div class="logo">
+                    <span>EYOARC</span>
+                </div>
+                <button class="close-menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="mobile-nav-items">
+                <a href="index.html" class="mobile-nav-item">Home</a>
+                <a href="games.html" class="mobile-nav-item">Games</a>
+                <a href="forum.html" class="mobile-nav-item">Forum</a>
+                <a href="store.html" class="mobile-nav-item">Store</a>
+                <a href="login.html" class="mobile-nav-item">Account</a>
+            </nav>
+        `;
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        
+        document.body.appendChild(mobileMenu);
+        document.body.appendChild(overlay);
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        const closeMenu = mobileMenu.querySelector('.close-menu');
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    </script>
+</body>
+</html>
