@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store - EYOARC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0cf;
+            --secondary: #90f;
+            --accent: #f06;
+            --dark: #0a0a14;
+            --darker: #05050a;
+            --light: #f0f0f0;
+            --glass: rgba(20, 20, 40, 0.6);
+            --glass-border: rgba(100, 100, 200, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            padding: 5px 10px;
+            width: 200px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Shopping Cart */
+        .cart-icon {
+            position: relative;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .cart-dropdown {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 350px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 20px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cart-dropdown.active {
+            display: block;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .cart-item-remove {
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cart-item-remove:hover {
+            color: var(--accent);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .cart-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .cart-actions .btn {
+            flex: 1;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(rgba(10, 10, 20, 0.8), rgba(5, 5, 10, 0.9)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Store Content */
+        .store-content {
+            margin-bottom: 60px;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category-btn {
+            padding: 10px 25px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--primary);
+            color: var(--dark);
+            border-color: var(--primary);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--accent);
+            color: var(--light);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        /* Product Image Container */
+        .product-img-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-img.front {
+            z-index: 2;
+            opacity: 1;
+        }
+
+        .product-img.back {
+            z-index: 1;
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        .product-card:hover .product-img.front {
+            opacity: 0;
+            transform: scale(1.05);
+        }
+
+        .product-card:hover .product-img.back {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .product-content {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .product-price .old-price {
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1rem;
+            margin-left: 10px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+            color: var(--secondary);
+        }
+
+        .product-rating .count {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .pagination a, .pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .pagination .active {
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker);
+            padding: 60px 0 20px;
+            border-top: 1px solid rgba(100, 100, 200, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .page-header {
+                padding: 100px 0 40px;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+
+            .cart-dropdown {
+                width: 300px;
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+
+            .cart-dropdown {
+                width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="logo">
+                <span>EYOARC</span>
+            </a>
+           <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="./games.html">Games</a>
+                <a href="./forum.html">Forum</a>
+                <a href="./store.html">Store</a>
+                <a href="./login.html">Account</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="navbarSearchInput" placeholder="Search store...">
+                <button id="navbarSearchButton"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="cart-icon" id="cartIcon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Cart Dropdown -->
+    <div class="cart-dropdown" id="cartDropdown">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <button class="btn btn-secondary" id="closeCart">Close</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be added here dynamically -->
+            <p class="empty-cart-message">Your cart is empty</p>
+        </div>
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cartTotal">$0.00</span>
+        </div>
+        <div class="cart-actions">
+            <button class="btn btn-secondary">View Cart</button>
+            <button class="btn btn-primary">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>EYOARC Store</h1>
+            <p>Official merchandise, apparel, and collectibles for true gaming enthusiasts</p>
+        </div>
+    </header>
+
+    <!-- Store Content -->
+    <main class="container">
+        <div class="store-content">
+            <!-- Categories -->
+            <div class="categories">
+                <button class="category-btn active" data-category="all">All Products</button>
+                <button class="category-btn" data-category="apparel">Apparel</button>
+                <button class="category-btn" data-category="accessories">Accessories</button>
+                <button class="category-btn" data-category="collectibles">Collectibles</button>
+                <button class="category-btn" data-category="new">New Arrivals</button>
+                <button class="category-btn" data-category="sale">On Sale</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be loaded here dynamically -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="#">Home</a>
+                <span class="active">1</span>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">Next</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>EYOARC</h3>
+                    <p>Your ultimate PC gaming hub for news, reviews, forums, and merchandise.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="games.html">Games</a></li>
+                        <li><a href="forum.html">Forum</a></li>
+                        <li><a href="store.html">Store</a></li>
+                        <li><a href="#">Account</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get the latest gaming news and offers.</p>
+                    <div class="search-bar" style="margin-top: 15px;">
+                        <input type="text" id="newsletterInput" placeholder="Your email">
+                        <button id="newsletterButton"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EYOARC. All rights reserved.</p>
+                <P>&copy; Eyoel Mulugeta, Dream Makers Limited.</P>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+    <!-- Store Script -->
+    <script>
+        // Product data - updated with items from index.html's featured merchandise
+        const products = [
+            {
+                id: 1,
+                title: "Grand Theft Auto: Springfield T-Shirt",
+                price: 24.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/nF19Hd0Oh161wmgX0237FKmHKXNukl1aKZJcCshJskA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pLmV0/c3lzdGF0aWMuY29t/LzU1NjMwMDc3L3Iv/aWwvMWU1MWEwLzY3/NTA1NjY0NzAvaWxf/MzAweDMwMC42NzUw/NTY2NDcwXzNvYnYu/anBn",
+                imageBack: "https://imgs.search.brave.com/n37UzmTVpidp0Ej1t7wUz636_w7ZUOQ28Kg-HQNgVpM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDgz/NDIzNTk5L3Bob3Rv/L2JsYW5rLWJhY2st/b2YtYmxhY2stdC1z/aGlydC13aXRoLWNs/aXBwaW5nLXBhdGgu/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PTdLSlMxY1VtWEZs/b1lGeWpGYl94SEhE/dGdEQzJNVndqczdN/TFNYVWFCbk09",
+                category: ["apparel"],
+                rating: 4.5,
+                ratingCount: 42,
+                badge: null
+            },
+            {
+                id: 2,
+                title: "Fifine Wireless Gaming Headset with a Mic and RGB",
+                price: 129.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/iBcbWygaeEnTaQxZeeFKXh_RsG_aabxXokpu_2t9Qoc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzErbjR3VXBXT0wu/anBn",
+                imageBack: "https://imgs.search.brave.com/Z1ccAUp_NBr2CbDxIaE_n7fvA7UB1Mnwiy_2UcYH7Ts/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9maWZp/bmVtaWNyb3Bob25l/LmNvbS9jZG4vc2hv/cC9maWxlcy9Db21m/b3J0YWJpbGl0eW9m/RklGSU5FQW1wbGlH/YW1lSDNHYW1pbmdI/ZWFkc2V0XzEwMjR4/MTAyNC5qcGc_dj0x/NzM0NjgxMDcw",
+                category: ["accessories"],
+                rating: 4,
+                ratingCount: 128,
+                badge: null
+            },
+            {
+                id: 3,
+                title: "RDR 2 Collector's Edition",
+                price: 179.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/KOCNG75bd1SMqyniwc-CJ1o-MYHA3whqXeiNJL3JY0M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cGljY2xpY2tpbWcu/Y29tL1FaY0FBT1N3/T29wbnl-NTMvUmVk/LURlYWQtUmVkZW1w/dGlvbi1Db2xsZWN0/b3JzLUVkaXRpb24t/MTAwLndlYnA",
+                imageBack: "https://imgs.search.brave.com/59uT-DyXkZBLdHYFd83LEYo9aGBK1l46HMFJsUcEe-0/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wcmV2/aWV3LnJlZGQuaXQv/cmVkLWRlYWQtcmVk/ZW1wdGlvbi0yLWNv/bGxlY3RvcnMtZWRp/dGlvbi1ib3gtdjAt/a2MyeTV5NXFlZ2Nj/MS5qcGc_d2lkdGg9/NjQwJmNyb3A9c21h/cnQmYXV0bz13ZWJw/JnM9NWZhZTUzZmFi/MDNkNGY4MjBjM2Vi/OTUyMDQzYThjMGY5/NDE3OTExYw",
+                category: ["collectibles"],
+                rating: 5,
+                ratingCount: 56,
+                badge: null
+            },
+            {
+                id: 4,
+                title: "Attack Shark Gaming Mouse",
+                price: 59.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/K1mcn3Fvbo5ebliBaRuy6ZEOwS_s4Z0L8BowLaYlrDM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hdHRh/Y2tzaGFyay5jb20v/Y2RuL3Nob3AvZmls/ZXMvMV8xMzI0MDgx/My1kMjEzLTQ4NmMt/YWVmMC1lZWYxODFl/MjFiZjYuanBnP3Y9/MTcyNDc0NDE1MSZ3/aWR0aD0xNjAw",
+                imageBack: "https://imgs.search.brave.com/jZ3o6aRFNRhE_DHu61LN7zCKssc3gmHftXEeCnzSq6U/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hdHRh/Y2tzaGFyay5jb20v/Y2RuL3Nob3AvZmls/ZXMvMzMzMy5qcGc_/dj0xNzI1NzA0NzA4/JndpZHRoPTE2MDA",
+                category: ["accessories"],
+                rating: 3.5,
+                ratingCount: 87,
+                badge: null
+            },
+            {
+                id: 5,
+                title: "Wireless Mechanical RGB Gaming Keyboard",
+                price: 299.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/ZD3n1GtpY1wvidClOGcqwnNo3DZimpzg3evGJ5S3V6c/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Z3JhdmFzdGFyLmNv/bS9jZG4vc2hvcC9m/aWxlcy83NS1tZWNo/YW5pY2FsLWtleWJv/YXJkLWdhbWluZy13/aXJlbGVzcy1SR0It/Z3JhdmFzdGFyLW1l/cmN1cnktazEta2Vl/YnMtMi53ZWJwP3Y9/MTczNzEwMjk2NyZ3/aWR0aD0xMDAw",
+                imageBack: "https://imgs.search.brave.com/cTpI0nUzqkhkjyoC6yZ-acA15YlIqA4BJFsEbbP2Two/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/Z3JhdmFzdGFyLmNv/bS9jZG4vc2hvcC9m/aWxlcy83NS1tZWNo/YW5pY2FsLWtleWJv/YXJkLWdhbWluZy13/aXJlbGVzcy1SR0It/Z3JhdmFzdGFyLW1l/cmN1cnktazEta2Vl/YnMtMS53ZWJwP3Y9/MTczNzEwMjk2NyZ3/aWR0aD0xMDAw",
+                category: ["accessories"],
+                rating: 5,
+                ratingCount: 112,
+                badge: null
+            },
+            {
+                id: 6,
+                title: "OLIXIS Gaming Chair",
+                price: 1299.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/Wgo9l3YcmEi4a8kvHcLJ_VIUy2AljU1sCVeliAJ1avo/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzF0NlNvZkluTkwu/anBn",
+                imageBack: "https://imgs.search.brave.com/aJOSbEojuec_4Y1FA8YW5Pz5vSvuH4GNW_3HeaCmdEY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFkYVhFOWJXTEwu/anBn",
+                category: ["accessories"],
+                rating: 4.5,
+                ratingCount: 23,
+                badge: null
+            },
+            {
+                id: 7,
+                title: "Red Dead Redemption:2 Hoodie",
+                price: 19.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/s-hkV8KuD221yH2m0ABVwJNKAtl6JR8la_ozi-pIRDM/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly9odHRw/Mi5tbHN0YXRpYy5j/b20vRF9RX05QXzJY/Xzc5MjYxNy1DQlQ3/MzY3MTAzMjAyMl8w/MTIwMjQtRS1zdWRh/ZGVyYS1jb24tY2Fw/dWNoYS15LWVzdGFt/cGFkby0zZC1kZS1y/ZWQtZGVhZC1yZWRl/bXB0aW9uLTIud2Vi/cA",
+                imageBack: "https://http2.mlstatic.com/D_NQ_NP_672598-CBT53745671505_022023-O-sudaderas-con-capucha-de-populares-juegos-sudadera-con-estam.webp",
+                category: ["apparel"],
+                rating: 3.5,
+                ratingCount: 45,
+                badge: null
+            },
+            {
+                id: 8,
+                title: "ZOTAC Nvidia Raytracing RTX 5090",
+                price: 2699.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/St5stR-B3GBeEeD5aSwULs8KQ8-Htk7WEzzPfKME9BM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NzFjN2stVE5vZkwu/anBn",
+                imageBack: "https://imgs.search.brave.com/4nvzZkGDVLOgU5fPGIs-UT65m5bn5oIG1WJbzsbe1nY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/cG55LmNvbS9wcm9k/dWN0aW1hZ2VzLzc0/RThGNzM5LUNGOTkt/NENBRC1CQ0NELUIy/NUYwMEFGRkNDRS9p/bWFnZXMvNS1QTlkt/UlRYLTUwOTAtQVJH/Qi1PQy1FUElDLVgt/VHJpcGxlLUZhbi1s/YS5wbmc",
+                category: ["accessories"],
+                rating: 5,
+                ratingCount: 78,
+                badge: null
+            },
+            {
+                id: 9,
+                title: "Gamer's Republic 4K 360Hz Gaming Monitor",
+                price: 1599.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/gCQtfx7f9xW4BFfP0uqzRDFoVwCcHs8VcMTkeb6cUOg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/b3ZlcmNsb2NrZXJz/LmNvLnVrL2ltYWdl/cy9NT04tQVNSLTA1/MDQ1LzA4N2Q1M2Fh/OTEyY2I0NDQyMDhm/MWU5Yzg3MWM0OWIx/LmpwZw",
+                imageBack: "https://imgs.search.brave.com/wB5igxRTlIIE2Rzq1mHC1GQzyUg3YGzoT6lO2XfE9TI/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODFPUTdxVUw3Ykwu/anBn",
+                category: ["accessories"],
+                rating: 4,
+                ratingCount: 34,
+                badge: null
+            },
+            {
+                id: 10,
+                title: "Facmogu HK2 Gaming Microphone",
+                price: 109.99,
+                oldPrice: null,
+                imageFront: "https://imgs.search.brave.com/pcC_HxoQHO02svImCXQwkQeOJ9Td79-ISCQDUqaPhcw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NTE5dTlWTUtqaEwu/anBn",
+                imageBack: "https://imgs.search.brave.com/t8wfmO6wHlAF9xWUbXkncaHBFNxxtb9Ar5Jd9W4EHbA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9nYW1l/YWtqby5jb20vY2Ru/L3Nob3AvZmlsZXMv/ZmFjbW9ndS1mOTk4/LWxpdmUtc291bmQt/Y2FyZC1hdWRpby1t/aXhlci1zdHJlYW1p/bmctbWljcm9waG9u/ZS03MzkuanBnP2Ny/b3A9Y2VudGVyJmhl/aWdodD0xMDAwJnY9/MTY4NTc5NTc5NiZ3/aWR0aD0xMDAw",
+                category: ["accessories"],
+                rating: 4.5,
+                ratingCount: 67,
+                badge: null
+            }
+        ];
+
+        // Cart data
+        let cart = [];
+
+        // DOM Elements
+        const productsGrid = document.getElementById('productsGrid');
+        const navbarSearchInput = document.getElementById('navbarSearchInput');
+        const navbarSearchButton = document.getElementById('navbarSearchButton');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const cartIcon = document.getElementById('cartIcon');
+        const cartDropdown = document.getElementById('cartDropdown');
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const cartTotal = document.getElementById('cartTotal');
+        const closeCart = document.getElementById('closeCart');
+        const newsletterInput = document.getElementById('newsletterInput');
+        const newsletterButton = document.getElementById('newsletterButton');
+
+        // Initialize the page
+        function init() {
+            renderProducts(products);
+            setupEventListeners();
+            updateCart();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Navbar search
+            navbarSearchInput.addEventListener('input', filterProducts);
+            navbarSearchButton.addEventListener('click', filterProducts);
+            
+            // Category filters
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => filterByCategory(button));
+            });
+            
+            // Cart interactions
+            cartIcon.addEventListener('click', toggleCart);
+            closeCart.addEventListener('click', toggleCart);
+            
+            // Newsletter subscription
+            newsletterButton.addEventListener('click', subscribeToNewsletter);
+        }
+
+        // Render products to the grid
+        function renderProducts(productsToRender) {
+            productsGrid.innerHTML = '';
+            
+            if (productsToRender.length === 0) {
+                productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 20px; color: var(--light);">No products found matching your criteria.</p>';
+                return;
+            }
+
+            productsToRender.forEach((product, index) => {
+                const productCard = createProductCard(product, index);
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Create product card HTML
+        function createProductCard(product, index) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.style.animationDelay = `${(index % 4) * 0.1}s`;
+            
+            let badgeHTML = '';
+            if (product.badge) {
+                badgeHTML = `<span class="product-badge">${product.badge}</span>`;
+            }
+            
+            let oldPriceHTML = '';
+            if (product.oldPrice) {
+                oldPriceHTML = `<span class="old-price">$${product.oldPrice.toFixed(2)}</span>`;
+            }
+            
+            // Generate star rating
+            const fullStars = Math.floor(product.rating);
+            const hasHalfStar = product.rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            
+            let starsHTML = '';
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                starsHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                starsHTML += '<i class="far fa-star"></i>';
+            }
+            
+            card.innerHTML = `
+                ${badgeHTML}
+                <div class="product-img-container">
+                    <img src="${product.imageFront}" alt="${product.title}" class="product-img front">
+                    <img src="${product.imageBack}" alt="${product.title} back" class="product-img back">
+                </div>
+                <div class="product-content">
+                    <h3 class="product-title">${product.title}</h3>
+                    <div class="product-price">$${product.price.toFixed(2)} ${oldPriceHTML}</div>
+                    <div class="product-rating">
+                        ${starsHTML}
+                        <span class="count">(${product.ratingCount})</span>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary add-to-cart" data-id="${product.id}">Add to Cart</button>
+                        <button class="btn btn-secondary"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            `;
+            
+            // Add click event to add to cart
+            const addToCartBtn = card.querySelector('.add-to-cart');
+            addToCartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                addToCart(product);
+            });
+            
+            return card;
+        }
+
+        // Filter products by search term
+        function filterProducts() {
+            const searchTerm = navbarSearchInput.value.toLowerCase();
+            
+            // Filter products
+            const filteredProducts = products.filter(product => {
+                return product.title.toLowerCase().includes(searchTerm);
+            });
+
+            renderProducts(filteredProducts);
+        }
+
+        // Filter products by category
+        function filterByCategory(button) {
+            // Update active button
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const category = button.dataset.category;
+            
+            if (category === 'all') {
+                renderProducts(products);
+                return;
+            }
+            
+            // Filter products
+            const filteredProducts = products.filter(product => {
+                return product.category.includes(category);
+            });
+
+            renderProducts(filteredProducts);
+        }
+
+        // Add product to cart
+        function addToCart(product) {
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    ...product,
+                    quantity: 1
+                });
+            }
+            
+            updateCart();
+            showCartNotification(product.title);
+        }
+
+        // Remove item from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        // Update cart UI
+        function updateCart() {
+            // Update cart count
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Update cart items
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+                cartTotal.textContent = '$0.00';
+                return;
+            }
+            
+            let totalPrice = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                totalPrice += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <img src="${item.imageFront}" alt="${item.title}" class="cart-item-img">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${item.title}</h4>
+                        <div class="cart-item-price">$${item.price.toFixed(2)} x ${item.quantity}</div>
+                    </div>
+                    <div class="cart-item-remove" data-id="${item.id}">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                
+                cartItems.appendChild(cartItem);
+                
+                // Add remove event
+                const removeBtn = cartItem.querySelector('.cart-item-remove');
+                removeBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeFromCart(item.id);
+                });
+            });
+            
+            // Update total
+            cartTotal.textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        // Toggle cart dropdown
+        function toggleCart() {
+            cartDropdown.classList.toggle('active');
+        }
+
+        // Show notification when item is added to cart
+        function showCartNotification(productTitle) {
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.innerHTML = `
+                <i class="fas fa-check-circle"></i>
+                <span>${productTitle} added to cart</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Newsletter subscription
+        function subscribeToNewsletter() {
+            const email = newsletterInput.value.trim();
+            
+            if (email && validateEmail(email)) {
+                alert(`Thank you for subscribing to our newsletter with ${email}!`);
+                newsletterInput.value = '';
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+
+        // Simple email validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Initialize the page
+        init();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'mobile-menu';
+        mobileMenu.innerHTML = `
+            <div class="mobile-menu-header">
+                <div class="logo">
+                    <span></span>
+                </div>
+               
+            </div>
+            
+            </nav>
+        `;
+        
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        
+        document.body.appendChild(mobileMenu);
+        document.body.appendChild(overlay);
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('open');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        const closeMenu = mobileMenu.querySelector('.close-menu');
+        closeMenu.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        overlay.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    </script>
+</body>
+</html>

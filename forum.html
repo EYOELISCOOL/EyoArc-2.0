@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum - EYOARC</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0cf;
+            --secondary: #90f;
+            --accent: #f06;
+            --dark: #0a0a14;
+            --darker: #05050a;
+            --light: #f0f0f0;
+            --glass: rgba(20, 20, 40, 0.6);
+            --glass-border: rgba(100, 100, 200, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 8px 15px;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 204, 255, 0.3);
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            padding: 5px 10px;
+            width: 200px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            color: var(--primary);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 120px 0 60px;
+            text-align: center;
+            background: linear-gradient(rgba(10, 10, 20, 0.8), rgba(5, 5, 10, 0.9)), url('https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 204, 255, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Forum Content */
+        .forum-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 992px) {
+            .forum-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Forum Sidebar */
+        .forum-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+
+        .forum-categories {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .forum-category {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .forum-category:last-child {
+            border-bottom: none;
+        }
+
+        .forum-category:hover {
+            background: rgba(0, 204, 255, 0.1);
+        }
+
+        .forum-category.active {
+            background: rgba(0, 204, 255, 0.2);
+            border-left: 3px solid var(--primary);
+        }
+
+        .forum-category i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .forum-stats {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Forum Main */
+        .forum-main {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .forum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .forum-title {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .forum-threads {
+            list-style: none;
+        }
+
+        .forum-thread {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .forum-thread:hover {
+            background: rgba(0, 204, 255, 0.05);
+        }
+
+        .thread-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .thread-meta {
+            display: flex;
+            gap: 20px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .thread-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .thread-stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .thread-stat i {
+            color: var(--secondary);
+        }
+
+        .thread-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .author-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .pagination a, .pagination span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 204, 255, 0.4);
+        }
+
+        .pagination .active {
+            background: var(--primary);
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--darker);
+            padding: 60px 0 20px;
+            border-top: 1px solid rgba(100, 100, 200, 0.1);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .forum-sidebar {
+                position: static;
+            }
+            
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-links {
+                gap: 15px;
+            }
+            
+            .page-header {
+                padding: 100px 0 40px;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .forum-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .page-header p {
+                font-size: 1rem;
+            }
+            
+            .thread-meta {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="index.html" class="logo">
+                <span>EYOARC</span>
+            </a>
+           <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="./games.html">Games</a>
+                <a href="./forum.html">Forum</a>
+                <a href="./store.html">Store</a>
+                <a href="./login.html">Account</a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search forum...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Community Forum</h1>
+            <p>Connect with fellow gamers, share tips, and discuss everything PC gaming</p>
+        </div>
+    </header>
+
+    <!-- Forum Content -->
+    <main class="container">
+        <div class="forum-content">
+            <!-- Sidebar -->
+            <div class="forum-sidebar">
+                <div class="forum-categories">
+                    <a href="#" class="forum-category active">
+                        <i class="fas fa-comments"></i> General Discussion
+                    </a>
+                    <a href="#" class="forum-category">
+                        <i class="fas fa-gamepad"></i> Game Help
+                    </a>
+                    <a href="#" class="forum-category">
+                        <i class="fas fa-desktop"></i> Hardware
+                    </a>
+                    <a href="#" class="forum-category">
+                        <i class="fas fa-newspaper"></i> News
+                    </a>
+                    <a href="#" class="forum-category">
+                        <i class="fas fa-coffee"></i> Off-topic
+                    </a>
+                </div>
+                <div class="forum-stats">
+                    <h3>Forum Statistics</h3>
+                    <div class="stat-item">
+                        <span>Threads:</span>
+                        <span class="stat-value">1,245</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Posts:</span>
+                        <span class="stat-value">12,589</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Members:</span>
+                        <span class="stat-value">5,678</span>
+                    </div>
+                    <div class="stat-item">
+                        <span>Online:</span>
+                        <span class="stat-value">243</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="forum-main">
+                <div class="forum-header">
+                    <h2 class="forum-title">General Discussion</h2>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> New Thread</button>
+                </div>
+                <ul class="forum-threads">
+                    <li class="forum-thread">
+                        <h3 class="thread-title">What's your current favorite game?</h3>
+                        <div class="thread-meta">
+                            <div class="thread-author">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="author-avatar">
+                                <span>GameMaster</span>
+                            </div>
+                            <span>Posted: 2 hours ago</span>
+                            <span>Last reply: 15 minutes ago</span>
+                        </div>
+                        <div class="thread-stats">
+                            <div class="thread-stat">
+                                <i class="fas fa-comment"></i> 24 replies
+                            </div>
+                            <div class="thread-stat">
+                                <i class="fas fa-eye"></i> 156 views
+                            </div>
+                        </div>
+                    </li>
+                    <li class="forum-thread">
+                        <h3 class="thread-title">Best gaming mouse for FPS in 2023?</h3>
+                        <div class="thread-meta">
+                            <div class="thread-author">
+                                <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="author-avatar">
+                                <span>FragKing</span>
+                            </div>
+                            <span>Posted: 1 day ago</span>
+                            <span>Last reply: 3 hours ago</span>
+                        </div>
+                        <div class="thread-stats">
+                            <div class="thread-stat">
+                                <i class="fas fa-comment"></i> 15 replies
+                            </div>
+                            <div class="thread-stat">
+                                <i class="fas fa-eye"></i> 289 views
+                            </div>
+                        </div>
+                    </li>
+                    <li class="forum-thread">
+                        <h3 class="thread-title">Cyber Odyssey performance issues</h3>
+                        <div class="thread-meta">
+                            <div class="thread-author">
+                                <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="User" class="author-avatar">
+                                <span>CyberQueen</span>
+                            </div>
+                            <span>Posted: 2 days ago</span>
+                            <span>Last reply: 1 day ago</span>
+                        </div>
+                        <div class="thread-stats">
+                            <div class="thread-stat">
+                                <i class="fas fa-comment"></i> 8 replies
+                            </div>
+                            <div class="thread-stat">
+                                <i class="fas fa-eye"></i> 112 views
+                            </div>
+                        </div>
+                    </li>
+                    <li class="forum-thread">
+                        <h3 class="thread-title">Looking for teammates for ranked play</h3>
+                        <div class="thread-meta">
+                            <div class="thread-author">
+                                <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="User" class="author-avatar">
+                                <span>ProGamer</span>
+                            </div>
+                            <span>Posted: 3 days ago</span>
+                            <span>Last reply: 1 day ago</span>
+                        </div>
+                        <div class="thread-stats">
+                            <div class="thread-stat">
+                                <i class="fas fa-comment"></i> 5 replies
+                            </div>
+                            <div class="thread-stat">
+                                <i class="fas fa-eye"></i> 78 views
+                            </div>
+                        </div>
+                    </li>
+                    <li class="forum-thread">
+                        <h3 class="thread-title">Upcoming games you're excited about</h3>
+                        <div class="thread-meta">
+                            <div class="thread-author">
+                                <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="User" class="author-avatar">
+                                <span>GameLover</span>
+                            </div>
+                            <span>Posted: 4 days ago</span>
+                            <span>Last reply: 2 days ago</span>
+                        </div>
+                        <div class="thread-stats">
+                            <div class="thread-stat">
+                                <i class="fas fa-comment"></i> 32 replies
+                            </div>
+                            <div class="thread-stat">
+                                <i class="fas fa-eye"></i> 210 views
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <div class="pagination">
+                <a href="#">Home</a>
+                <span class="active">1</span>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#">5</a>
+                <a href="#">Next</a>
+            </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>EYOARC</h3>
+                    <p>Your ultimate PC gaming hub for news, reviews, forums, and merchandise.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="games.html">Games</a></li>
+                        <li><a href="forum.html">Forum</a></li>
+                        <li><a href="store.html">Store</a></li>
+                        <li><a href="#">Account</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to get the latest gaming news and offers.</p>
+                    <div class="search-bar" style="margin-top: 15px;">
+                        <input type="text" placeholder="Your email">
+                        <button><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 EYOARC. All rights reserved.</p>
+                <P>&copy; Eyoel Mulugeta, Dream Makers Limited.</P>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Font Awesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
